@@ -6,35 +6,20 @@ const ReactRoot = ReactDOM.createRoot(document.getElementById("root"));
 let score = 0;
 let wicket = 0;
 let ballWiseScoreArr = [];
-let printable = null;
-
+let hit = 0;
 
 // -- function area -- 
 function addScore(num) {
-  if(wicket<10){
-    ballWiseScoreArr.push(num);
-    score += num; // re-render updatedscore
-    document.querySelector(".runinput").value = num; // update value in input 
-    ReactRoot.render(<App />);
-    //console.log(ballWiseScoreArr);
-  }
+  hit = num;
+  ReactRoot.render(<App/>);
 }
 
 function addWicket(){
-  if(wicket <10){
-    ballWiseScoreArr.push("W");
-    wicket++;
-    document.querySelector(".runinput").value = num;
-    ReactRoot.render(<App />);
-    //console.log(ballWiseScoreArr);
-  }
-  
+  hit = "W";
+  ReactRoot.render(<App/>);
 }
 
 function SubmitComment(){
-  let commentElem = document.querySelector(".commentinput");
-  let runElem = document.querySelector(".runinput");
-  printable = `runs ${runElem.value} , Comment ${commentElem.value}`;
   ReactRoot.render(<App/>);
 }
 
@@ -84,7 +69,7 @@ function FormComponent(){
   <>
   <div>
     <form action={handleSubmit}>
-      <input type="number" className="runinput" disabled/>
+      <input type="number" className="runinput" value = {hit} disabled/>
       <input type="text" className="commentinput" placeholder="Add Comment"/>
       <button onClick={SubmitComment}>Submit</button>
     </form>
@@ -107,7 +92,6 @@ const App = () => {
       <br/>
       <FormComponent/>
       <hr/>
-      {printable != null ? <><p>{printable}</p><br/></>:null}
     </>
   );
 };
