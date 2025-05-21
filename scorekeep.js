@@ -38,6 +38,9 @@ function SubmitComment(){
   ReactRoot.render(<App/>);
 }
 
+function handleSubmit(event){
+  event.preventDefault();
+}
 
 
 
@@ -80,7 +83,7 @@ function FormComponent(){
   return(
   <>
   <div>
-    <form>
+    <form action={handleSubmit}>
       <input type="number" className="runinput" disabled/>
       <input type="text" className="commentinput" placeholder="Add Comment"/>
       <button onClick={SubmitComment}>Submit</button>
