@@ -6,6 +6,7 @@ const ReactRoot = ReactDOM.createRoot(document.getElementById("root"));
 let score = 0;
 let wicket = 0;
 let ballWiseScoreArr = [];
+let printable = null;
 
 
 // -- function area -- 
@@ -13,8 +14,9 @@ function addScore(num) {
   if(wicket<10){
     ballWiseScoreArr.push(num);
     score += num; // re-render updatedscore
+    document.querySelector(".runinput").value = num; // update value in input 
     ReactRoot.render(<App />);
-    console.log(ballWiseScoreArr);
+    //console.log(ballWiseScoreArr);
   }
 }
 
@@ -22,10 +24,18 @@ function addWicket(){
   if(wicket <10){
     ballWiseScoreArr.push("W");
     wicket++;
+    document.querySelector(".runinput").value = num;
     ReactRoot.render(<App />);
-    console.log(ballWiseScoreArr);
+    //console.log(ballWiseScoreArr);
   }
   
+}
+
+function SubmitComment(){
+  let commentElem = document.querySelector(".commentinput");
+  let runElem = document.querySelector(".runinput");
+  printable = `runs ${runElem.value} , Comment ${commentElem.value}`;
+  ReactRoot.render(<App/>);
 }
 
 
@@ -53,13 +63,31 @@ function ScoreButtonsComponent()
 function BallvsRunsTableComponent() {
   return (
     <div>
-      {ballWiseScoreArr.map((res,index) => {
-        return (<span key = {index}> {res} </span>)
-      }
-      )
-      }
+      {ballWiseScoreArr.map((res, index) => {
+        return (
+          <>
+            {index % 6 === 0 ? <br /> : null}
+            <span key={index}> {res ===0?".":res} </span> 
+            &nbsp; &nbsp; &nbsp;
+          </>
+        );
+      })}
     </div>
-  )
+  );
+}
+
+function FormComponent(){
+  return(
+  <>
+  <div>
+    <form>
+      <input type="number" className="runinput" disabled/>
+      <input type="text" className="commentinput" placeholder="Add Comment"/>
+      <button onClick={SubmitComment}>Submit</button>
+    </form>
+  </div>
+  </>
+  );
 }
 
 
@@ -72,7 +100,11 @@ const App = () => {
         Score : {score}/{wicket}
       </h2>
       <ScoreButtonsComponent/>
-      <BallvsRunsTableComponent/>
+      {/* <BallvsRunsTableComponent/> */}
+      <br/>
+      <FormComponent/>
+      <hr/>
+      {printable != null ? <><p>{printable}</p><br/></>:null}
     </>
   );
 };
