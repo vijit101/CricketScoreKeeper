@@ -5,31 +5,39 @@ const ReactRoot = ReactDOM.createRoot(document.getElementById("root"));
 // -- variable Area 
 let score = 0;
 let wicket = 0;
+let ballWiseScoreArr = [];
 
 
 // -- function area -- 
 function addScore(num) {
   if(wicket<10){
+    ballWiseScoreArr.push(num);
     score += num; // re-render updatedscore
     ReactRoot.render(<App />);
+    console.log(ballWiseScoreArr);
   }
 }
 
 function addWicket(){
   if(wicket <10){
+    ballWiseScoreArr.push("W");
     wicket++;
     ReactRoot.render(<App />);
+    console.log(ballWiseScoreArr);
   }
   
 }
 
 
+
+
 // -- Component area -- 
-function ButtonElementComponent()
+function ScoreButtonsComponent()
 {
   return (
     <>
       <div className="button">
+        <button onClick={()=>{addScore(0)}}>0</button>
         <button onClick={()=>{addScore(1)}}>1</button>
         <button onClick={()=>{addScore(2)}}>2</button>
         <button onClick={()=>{addScore(3)}}>3</button>
@@ -42,6 +50,18 @@ function ButtonElementComponent()
   );
 };
 
+function BallvsRunsTableComponent() {
+  return (
+    <div>
+      {ballWiseScoreArr.map((res,index) => {
+        return (<span key = {index}> {res} </span>)
+      }
+      )
+      }
+    </div>
+  )
+}
+
 
 // -- main app 
 const App = () => {
@@ -51,7 +71,8 @@ const App = () => {
       <h2>
         Score : {score}/{wicket}
       </h2>
-      <ButtonElementComponent/>
+      <ScoreButtonsComponent/>
+      <BallvsRunsTableComponent/>
     </>
   );
 };
