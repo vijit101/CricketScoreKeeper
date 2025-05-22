@@ -33,7 +33,7 @@ function handleSubmit(event){
   }else{
     score += hit;
   }
-  hitScoreArr.unshift(<span>`${hit} , ${CommentRef.current.value}`</span>); // instead of pusing at arry end it pushes the new element at the front ie. put new elem at index 0 other elements shift 
+  hitScoreArr.unshift(<span>{hit} , {CommentRef.current.value}</span>); // instead of pusing at arry end it pushes the new element at the front ie. put new elem at index 0 other elements shift 
   ReactRoot.render(<App/>);
 }
 
