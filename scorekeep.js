@@ -7,10 +7,13 @@ let score = 0;
 let wicket = 0;
 let ballWiseScoreArr = [];
 let hit = 0;
+let hitScoreArr = [];
+let CommentRef = React.createRef();
 
 // -- function area -- 
 function addScore(num) {
   hit = num;
+  
   ReactRoot.render(<App/>);
 }
 
@@ -25,6 +28,13 @@ function SubmitComment(){
 
 function handleSubmit(event){
   event.preventDefault();
+  if(hit==="W"){
+    wicket++;
+  }else{
+    score += hit;
+  }
+  hitScoreArr.unshift(<span>{hit} {","} &nbsp; {CommentRef.current.value}</span>); // instead of pusing at arry end it pushes the new element at the front ie. put new elem at index 0 other elements shift 
+  ReactRoot.render(<App/>);
 }
 
 
@@ -68,9 +78,9 @@ function FormComponent(){
   return(
   <>
   <div>
-    <form action={handleSubmit}>
-      <input type="number" className="runinput" value = {hit} disabled/>
-      <input type="text" className="commentinput" placeholder="Add Comment"/>
+    <form onSubmit={handleSubmit}>
+      <input type="text" className="runinput" value = {hit} disabled/>
+      <input ref={CommentRef} type="text" className="commentinput" placeholder="Add Comment"/>
       <button onClick={SubmitComment}>Submit</button>
     </form>
   </div>
@@ -87,11 +97,20 @@ const App = () => {
       <h2>
         Score : {score}/{wicket}
       </h2>
-      <ScoreButtonsComponent/>
+      <ScoreButtonsComponent />
       {/* <BallvsRunsTableComponent/> */}
-      <br/>
-      <FormComponent/>
-      <hr/>
+      <br />
+      <FormComponent />
+      <hr />
+      {hitScoreArr.map((hitscore, index) => {
+        return (
+          <>
+            <div key={index}>
+              {hitscore}
+            </div>
+          </>
+        );
+      })}
     </>
   );
 };
